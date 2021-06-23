@@ -20,11 +20,6 @@ def populate_list():
     # db.fetch() = def fetch(self): function inside our db.py module and we are accessing that using db object in this module
     #so here in this for loop we are going to loop through all the rows of our table and populate our listBox
     #beacause we know def fetch(self): is returning rows in db.py module
-    part_name = ''
-    customer_name = ''
-    retailer_name = ''
-    prince_rs = ''
-    list_text = ''
     for row in db.fetch():
         #END = the new info will be inserted at the end of the list box
         #tnd the things we are inserting will be the row returned by the fetch() method
@@ -51,10 +46,15 @@ def add_item():
 #so here before remove_item(): function we will be requiring a select_item function to add select record function
 #from our list box widget in tkinter
 #basically we will binding our listBox to this
+selected_item_details =''
 def select_item(event):
     print("Select Item")
     try:
         global selected_item
+        global selected_item_details
+        global Selected_item_view
+        selected_item_details =''
+        #Selected_item_view.config(text="")
         #now we will be getting the index of the selected item in the listBox
         index = parts_list.curselection()[0]
         selected_item = parts_list.get(index)
@@ -67,8 +67,19 @@ def select_item(event):
         customer_entry.insert(END, selected_item[2])
         Retailer_entry.insert(END, selected_item[3])
         Price_entry.insert(END, selected_item[4])
+        selected_item_details = "Part Name = " + selected_item[1] + "\n" + "Customer Name = " + selected_item[2]+"\n" + "Retailer Name = "+ selected_item[3] +"\n"+ "Price = "+selected_item[4]
+        print(selected_item_details)
+
     except IndexError:
         pass
+
+def show_selected_item_detail_in_a_newWindow():
+    if selected_item_details == "":
+        messagebox.showerror("Error120x20545", "Order details cannot be shown because nothing is selected!!")
+        return
+    window2 = Toplevel()
+    Selected_item_view = Label(window2, text=selected_item_details, font=("bold", 14))
+    Selected_item_view.grid(row=4, column=0, columnspan=4, sticky=W, padx=10, pady=10)
 
 def remove_item():
     print("remove")
@@ -104,14 +115,14 @@ app = Tk()
 #setting up the window titile
 app.title("Part manager")
 #setting up the window size on first boot
-app.geometry("700x550")
+app.geometry("800x600")
 
 # setting up the minimum size and maximum size for the application window
 # set minimum window size value
-app.minsize(700, 550)
+app.minsize(800, 600)
 
 # set maximum window size value
-app.maxsize(700, 550)
+app.maxsize(800, 600)
 
 #creating the input field for the user where the user will insert the details related to a particular computer part
 
@@ -196,6 +207,9 @@ clear_button.grid(row=2,column=3)
 Dev_button = Button(app,text="Developer info",command=Dev_info)
 Dev_button.grid(row=2,column=4,sticky=E)
 
+#creating a button that will show the detail of the order in a new window
+detail_view_button = Button(app,text = "Show Detail",command = show_selected_item_detail_in_a_newWindow)
+detail_view_button.grid(row = 1,column=4,sticky=E)
 
 #now we want to populate our listbox with computer parts list if present any when our application boots up
 populate_list()
