@@ -41,6 +41,7 @@ Read me file
        ```
            pip install auto-py-to-exe
        ```
+  
   step-2:- type auto-py-to-exe and use the GUI application to make your python file into an executable for windows operating system
 
 here are some preview images:-
