@@ -7,7 +7,8 @@ Read me file
   step 1:- pip install py2app
   
   step 2:- 
-           ```create a setup.py file for your project in the same directory
+      ```
+           create a setup.py file for your project in the same directory
            from setuptools import setup
            APP = ['your python file name.py']
            OPTIONS = {
